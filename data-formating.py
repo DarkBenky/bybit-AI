@@ -25,8 +25,10 @@ def formatting(look_up = 50, data = []):
 	formatted_data = []
 	for i in range(look_up, len(data)):
 		lines = []
-		for i in range(i , i - look_up, -1):
-			lines.append(data[i])
+		predicted_data = data[i][1]
+		lines.append([predicted_data])
+		for j in range(i-1 , i - look_up-  1, -1):
+			lines.append(data[j])
 		formatted_data.append(lines)
 	return formatted_data
 		
@@ -43,7 +45,7 @@ def main():
 	except:
 		print("file does not exist")
 
-	for i in range(0, len(formatted_data)-1):
+	for i in range(1, len(formatted_data)-1):
 		data = pd.DataFrame(unpack(formatted_data[i]))
 		data = data.T
 		data.to_csv("formatted_data.csv", mode="a", header=False)
