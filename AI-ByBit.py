@@ -10,10 +10,8 @@ import goose
 def accuracy(predictions, y_test):
 	accuracy = 0
 	for i in range(len(predictions)):
-		prediction = round(predictions[i], -2)
-		actual = round(y_test[i], -2)
-		accuracy += abs(prediction - actual) / actual
-	accuracy = (accuracy / len(predictions))*100
+		accuracy += abs(predictions[i] - y_test[i]) / y_test[i]
+	accuracy = (accuracy / len(predictions)) * 100
 	return accuracy
 
 def main():
