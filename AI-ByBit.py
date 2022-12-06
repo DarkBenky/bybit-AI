@@ -8,9 +8,11 @@ import pandas as pd
 import goose 
 
 def accuracy(predictions, y_test):
+	"""Returns the accuracy of the model"""
 	accuracy = 0
 	for i in range(len(predictions)):
 		accuracy += abs(predictions[i] - y_test[i]) / y_test[i]
+		print(predictions[i], y_test[i])
 	accuracy = (accuracy / len(predictions)) * 100
 	return accuracy
 
@@ -46,7 +48,7 @@ def main():
 		
 		
 		model.compile(loss="mean_squared_error", optimizer="adam")
-		model.fit(x_train, y_train, epochs=1, batch_size=32)
+		model.fit(x_train, y_train, epochs=20, batch_size=32, validation_data=(x_test, y_test))
 
 		model.save("model.h5")
 		model.save_weights("model_weights.h5")
