@@ -10,18 +10,10 @@ import goose
 def accuracy(predictions, y_test):
 	accuracy = 0
 	for i in range(len(predictions)):
-		accuracy += abs(predictions[i] - y_test[i])
-	accuracy = accuracy / len(predictions)
-	return accuracy
-
-def average_direction_accuracy(predictions, y_test):
-	accuracy = 0
-	for i in range(len(predictions)):
-		if predictions[i] > y_test[i]:
-			accuracy += 1
-		elif predictions[i] < y_test[i]:
-			accuracy -= 1
-	accuracy = accuracy / len(predictions)
+		prediction = round(predictions[i], -2)
+		actual = round(y_test[i], -2)
+		accuracy += abs(prediction - actual) / actual
+	accuracy = (accuracy / len(predictions))*100
 	return accuracy
 
 def main():
@@ -56,7 +48,7 @@ def main():
 		
 		
 		model.compile(loss="mean_squared_error", optimizer="adam")
-		model.fit(x_train, y_train, epochs=50, batch_size=32)
+		model.fit(x_train, y_train, epochs=1, batch_size=32)
 
 		model.save("model.h5")
 		model.save_weights("model_weights.h5")
@@ -65,19 +57,21 @@ def main():
 		predictions = scalar.inverse_transform(predictions)
 		y_test = scalar.inverse_transform(y_test)
 		print(accuracy(predictions, y_test))
-		print(average_direction_accuracy(predictions, y_test))
 
 
 		
  
 
-def predict_price(model, data):
+def predict_price(model, data, scalar_data):
+	scalar = MinMaxScaler(feature_range=(0,1))
+	data = scalar.fit_transform(scalar_data)
 	#load tensorflow model
 	model = load_model(model)
 	#load weights
 	model.load_weights("model_weights.h5")
 	#predict price
 	prediction = model.predict(data)
+	prediction = scalar.inverse_transform(prediction)
 	return prediction
 
 
