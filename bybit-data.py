@@ -2,6 +2,8 @@ import bybit
 import pandas as pd
 import time
 from requests import Request, Session
+import pandas as pd
+import datetime as dt
 
 def str_to_round(number):
 	try:
@@ -10,7 +12,22 @@ def str_to_round(number):
 		return round(float(number))
 	except Exception as e:
 		print("Error: ", e)
-		
+
+def log_error(error_massage):
+	try:
+		with open("error.txt", "r") as file:
+			print("file exists")
+			now = dt.datetime.now()
+			now = now.strftime("%Y-%m-%d %H:%M:%S")
+			file.write(now+"\n"+error_massage+"\n")
+	except:
+		print("file does not exist")
+		now = dt.datetime.now()
+		now = now.strftime("%Y-%m-%d %H:%M:%S")
+		with open("error.txt", "w") as file:
+			file.write(now+"\n"+error_massage+"\n")
+			
+	
 
 def get_data():
 	try:
@@ -37,6 +54,7 @@ def get_data():
 		return df
 	except Exception as e:
 		print("Error",e)
+		log_error(str(e))
 
 def main():
 	while True:
@@ -46,6 +64,7 @@ def main():
 			print("Data saved")
 		except Exception as e:
 			print("Error",e)
+			log_error(str(e))
 		time.sleep(60)
 
 
