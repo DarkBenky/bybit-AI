@@ -1,7 +1,7 @@
 import bybit
 import pandas as pd
 import time
-from requests import Request, Session
+
 
 def str_to_round(number):
 	try:
@@ -10,6 +10,12 @@ def str_to_round(number):
 		return round(float(number))
 	except Exception as e:
 		print("Error: ", e)
+		log_error(e)
+
+def log_error(error):
+	with open("error.txt", "a") as file:
+		now = time.time()
+		file.write(str(error) + " " + str(now) + "\n")
 		
 
 def get_data():
@@ -37,6 +43,7 @@ def get_data():
 		return df
 	except Exception as e:
 		print("Error",e)
+		log_error(e)
 
 def main():
 	while True:
@@ -46,6 +53,7 @@ def main():
 			print("Data saved")
 		except Exception as e:
 			print("Error",e)
+			log_error(e)
 		time.sleep(60)
 
 

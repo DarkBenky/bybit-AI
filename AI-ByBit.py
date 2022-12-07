@@ -48,7 +48,7 @@ def main():
 		
 		
 		model.compile(loss="mean_squared_error", optimizer="adam")
-		model.fit(x_train, y_train, epochs=20, batch_size=32, validation_data=(x_test, y_test))
+		model.fit(x_train, y_train, epochs=100, batch_size=32, validation_data=(x_test, y_test))
 
 		model.save("model.h5")
 		model.save_weights("model_weights.h5")
