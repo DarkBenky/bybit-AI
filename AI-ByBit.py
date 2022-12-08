@@ -80,7 +80,7 @@ def predict_price(model_path, y_test, x_test):
 	predictions = model.predict(x_test)
 	predictions = scalar.inverse_transform(predictions)
 	y_test = scalar.inverse_transform(y_test)
-	print("Accuracy: ", accuracy(predictions, y_test))
+	print("ERROR: ", accuracy(predictions, y_test))
 	return predictions
 
 def prepare_data():
