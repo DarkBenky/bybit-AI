@@ -16,9 +16,9 @@ def accuracy(predictions, y_test):
 	"""Returns the accuracy of the model"""
 	accuracy = 0
 	for i in range(len(predictions)):
-		accuracy += abs(predictions[i] - y_test[i]) / y_test[i]
-		print(predictions[i], y_test[i])
-	accuracy = (accuracy / len(predictions)) * 100
+		accuracy += abs(predictions[i] - y_test[i])
+		print("Prediction: ", predictions[i], "Actual: ", y_test[i])
+	accuracy = (accuracy / len(predictions))
 	return accuracy
 
 def main():
@@ -54,10 +54,6 @@ def main():
 	model.add(Dropout(0.2))
 	model.add(LSTM(256 , return_sequences=True))
 	model.add(Dropout(0.2))
-	model.add(LSTM(128 , return_sequences=True))
-	model.add(Dropout(0.2))
-	model.add(LSTM(64 , return_sequences=True))
-	model.add(Dropout(0.2))
 	model.add(LSTM(32))
 	model.add(Dense(units=1))
 		
@@ -79,12 +75,12 @@ def main():
 def predict_price(model_path, y_test, x_test):
 	"""Predicts the price of the next candle"""
 	scalar = MinMaxScaler(feature_range=(0,1))
-	scalar.fit_transform(y_test)
+	y_test = scalar.fit_transform(y_test)
 	model = load_model(model_path)
 	predictions = model.predict(x_test)
 	predictions = scalar.inverse_transform(predictions)
 	y_test = scalar.inverse_transform(y_test)
-	print("ERROR: ", accuracy(predictions, y_test))
+	print("Accuracy: ", accuracy(predictions, y_test))
 	return predictions
 
 def prepare_data():
@@ -103,7 +99,7 @@ def prepare_data():
 	return x_test , y_test
 
 if __name__ == "__main__":
-	main()
+	# main()
 	x_test , y_test = prepare_data()
 	predict_price("model.h5", y_test, x_test)
 	
