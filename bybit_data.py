@@ -2,6 +2,7 @@ import bybit
 import pandas as pd
 import time
 import data_formating
+import page_backend
 
 def str_to_round(number):
 	try:
@@ -51,6 +52,12 @@ def main():
 			df = get_data()
 			df.to_csv("bybit.csv", mode="a", header=False)
 			print("Data saved")
+			try:
+				page_backend.bot_predict()
+				print("Bot predicted")
+			except Exception as e:
+				print("Error",e)
+				log_error(e)
 			try:
 				data_formating.main()
 				print("Data formatted")

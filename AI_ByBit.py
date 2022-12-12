@@ -48,13 +48,13 @@ def main():
 	print(y_train)
 	
 	model = Sequential()
-	model.add(LSTM(512, return_sequences=True, input_shape=(x_train.shape[1], 1)))
+	model.add(LSTM(512, input_shape=(x_train.shape[1],1), return_sequences=True))
 	model.add(Dropout(0.2))
 	model.add(LSTM(512, return_sequences=True))
 	model.add(Dropout(0.2))
-	model.add(LSTM(256 , return_sequences=True))
+	model.add(LSTM(512 , return_sequences=True))
 	model.add(Dropout(0.2))
-	model.add(LSTM(32))
+	model.add(LSTM(512))
 	model.add(Dense(units=1))
 		
 		
