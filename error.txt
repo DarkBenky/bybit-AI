@@ -1,0 +1,7 @@
+Resource place_active_order not found. Available resources: APIkey, Common, Conditional, Execution, Funding, FuturesConditional, FuturesExecution, FuturesOrder, FuturesPositions, Kline, LinearConditional, LinearExecution, LinearFunding, LinearKline, LinearMarket, LinearOrder, LinearPositions, LinearWallet, Market, Order, Positions, Symbol, Wallet 1670865058.9750657
+Resource client not found. Available resources: APIkey, Common, Conditional, Execution, Funding, FuturesConditional, FuturesExecution, FuturesOrder, FuturesPositions, Kline, LinearConditional, LinearExecution, LinearFunding, LinearKline, LinearMarket, LinearOrder, LinearPositions, LinearWallet, Market, Order, Positions, Symbol, Wallet 1670865235.7578435
+LinearPositions_tradingStop does not have parameter qty 1670865432.1766405
+Resource 'LinearPositions' has no operation 'LinearOrder_new' 1670865488.7011254
+No connection adapters were found for "'https://api.bybit.com'/v2/private/order/create" 1670865835.4645872
+order_type is a required parameter 1670865977.123817
+time_in_force is a required parameter 1670866025.832453

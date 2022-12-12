@@ -7,7 +7,15 @@ import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import load_model
+import bybit
+import time
 
+client = bybit.bybit(test=False,api_key="sak71uwI7bOi4VFMIv",api_secret="Ry7djlWRAOcbzRXdTxqEXIzIZTq2jZKKl3mnK")
+
+def log_error(error):
+	with open("error.txt", "a") as file:
+		now = time.time()
+		file.write(str(error) + " " + str(now) + "\n")
 
 def predict_next_value():
 	scalar = MinMaxScaler(feature_range=(0,1))
@@ -47,12 +55,32 @@ def predict_next_value():
 	fig = px.line(df, x=df.index, y=df.columns , title="Predictions vs Actual")
 	fig.write_html("predictions.html")
 
+def bybit_buy_sell(side):
+	try:
+		if side == "Buy":
+			print(client.Order.Order_new(
+				qty=1,
+				symbol="BTCUSD",
+				order_type="Market",
+				time_in_force ="GoodTillCancel" ,
+				side="Buy", ).result())
+		elif side == "Sell":
+			print(client.Order.Order_new(
+				qty=1,
+				symbol="BTCUSD",
+				order_type="Market",
+				side="Sell",
+				time_in_force ="GoodTillCancel" 
+				).result())
+	except Exception as e:
+		print("Error",e)
+		log_error(e)
+
 
 def bot_predict():
 	data = goose.load_data_csv("bybit.csv")
 	# get last 60 values
 	data = data[-60:]
-	print(data)
 	price = goose.select_data_at_index(data, 1)
 	current_price = price[-1]
 	price = pd.DataFrame(price).astype(float)
@@ -67,7 +95,7 @@ def bot_predict():
 	
 	data_to_predict = np.array(data_to_predict).astype(float)
 	data_to_predict = np.reshape(data_to_predict, (1, data_to_predict.shape[0], 1))
-	print(data_to_predict.shape)
+
 
 	model = load_model("model.h5")
 	model_best = load_model("model_best.h5")
@@ -83,11 +111,12 @@ def bot_predict():
 	if prediction > float(current_price):
 		print("buy")
 		print("prediction: ", prediction , "current price: ", current_price)
+		bybit_buy_sell("Buy")
 	else:
 		print("sell")
 		print("prediction: ", prediction , "current price: ", current_price)
+		bybit_buy_sell("Sell")
 	
-
 
 
 
