@@ -1,5 +1,5 @@
 Bybit==0.2.12
-Keras==2.3.1
+Keras==2.8.0rc0
 numpy==1.21.0
 pandas==1.4.3
 plotly==5.11.0
