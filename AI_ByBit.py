@@ -49,11 +49,15 @@ def main():
 	
 	model = Sequential()
 	model.add(LSTM(512, input_shape=(x_train.shape[1],1), return_sequences=True))
-	model.add(Dropout(0.2))
+	model.add(Dropout(0.1))
 	model.add(LSTM(512, return_sequences=True))
-	model.add(Dropout(0.2))
+	model.add(Dropout(0.1))
 	model.add(LSTM(512 , return_sequences=True))
-	model.add(Dropout(0.2))
+	model.add(Dropout(0.1))
+	model.add(LSTM(512, return_sequences=True))
+	model.add(Dropout(0.1))
+	model.add(LSTM(512 , return_sequences=True))
+	model.add(Dropout(0.1))
 	model.add(LSTM(512))
 	model.add(Dense(units=1))
 		

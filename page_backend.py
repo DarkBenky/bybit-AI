@@ -1,11 +1,8 @@
 import pandas as pd
 import plotly.express as px
 import numpy as np
-import AI_ByBit as ai
 import goose
-import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import load_model
 import bybit
 import time
@@ -52,7 +49,7 @@ def predict_next_value():
 	df = pd.DataFrame(predictions)
 	df.columns = ["Predictions", "Predictions_best", "Actual"]
 
-	fig = px.line(df, x=df.index, y=df.columns , title="Predictions vs Actual")
+	fig = px.line(df, x=df.index, y=df.columns, title="Predictions vs Actual", template="plotly_dark")
 	fig.write_html("predictions.html")
 
 def bybit_buy_sell(side):
@@ -119,7 +116,7 @@ def bot_predict():
 	
 
 
-
+predict_next_value()
 
 	
 	
